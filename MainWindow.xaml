@@ -1,0 +1,97 @@
+<Window x:Class="DncApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="АРМ Диспетчера РДЗ" Height="700" Width="1100" Background="#1e1e1e">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/> <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#2d2d30" BorderBrush="#3f3f46" BorderThickness="0,0,0,2">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
+                <TextBlock Foreground="#00a2ed" FontSize="20" FontWeight="Bold" Text="Рівненська дитяча залізниця"/>
+                <TextBlock Foreground="White" FontSize="16" Text=" | Мікропроцесорна централізація" Margin="10,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Background="#1e1e1e">
+            <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                <Button x:Name="BtnStationCentral" Content="ст. ЦЕНТРАЛЬНА" Width="150" Background="#3f3f46" Foreground="White" BorderThickness="0" Click="SwitchStation_Click"/>
+                <Button x:Name="BtnStationOzerna" Content="ст. ОЗЕРНА" Width="150" Background="#2d2d30" Foreground="Gray" BorderThickness="0" Margin="5,0,0,0" Click="SwitchStation_Click"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="0" Margin="10" Background="#111111" BorderBrush="#333" BorderThickness="1">
+            <Grid>
+                <Canvas x:Name="CentralCanvas" Visibility="Visible">
+                    <Line X1="50" Y1="120" X2="250" Y2="120" Stroke="Gray" StrokeThickness="6"/>
+                    <TextBlock Canvas.Left="130" Canvas.Top="100" Foreground="Gray" Text="1 колія"/>
+                    
+                    <Line X1="50" Y1="180" X2="250" Y2="180" Stroke="Gray" StrokeThickness="6" x:Name="Track2Line"/>
+                    <TextBlock Canvas.Left="130" Canvas.Top="190" Foreground="Gray" Text="2 колія (Гол.)"/>
+
+                    <Line x:Name="Switch1Line" X1="300" Y1="180" X2="250" Y2="180" Stroke="Gray" StrokeThickness="6" Cursor="Hand" MouseLeftButtonDown="Switch_MouseLeftButtonDown"/>
+                    <TextBlock Canvas.Left="260" Canvas.Top="130" Foreground="White" FontSize="10" Text="Стр.1"/>
+
+                    <Line X1="300" Y1="180" X2="750" Y2="180" Stroke="Gray" StrokeThickness="6"/>
+                    <TextBlock Canvas.Left="450" Canvas.Top="150" Foreground="LightGray" Text="ПЕРЕГІН (до ст. Озерна) ➔"/>
+
+                    <Ellipse x:Name="SignalN2" Canvas.Left="230" Canvas.Top="160" Width="14" Height="14" Fill="Red" Cursor="Hand" MouseLeftButtonDown="Signal_Click">
+                        <Ellipse.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="🔴 Заборонний (Червоний)" Click="SignalN2_SetRed"/>
+                                <MenuItem Header="🟢 Відправлення (Зелений)" Click="SignalN2_SetGreen"/>
+                            </ContextMenu>
+                        </Ellipse.ContextMenu>
+                    </Ellipse>
+                    <TextBlock Canvas.Left="230" Canvas.Top="145" Foreground="White" Text="Н2"/>
+
+                    <Ellipse x:Name="SignalCh" Canvas.Left="330" Canvas.Top="200" Width="14" Height="14" Fill="Red" Cursor="Hand" MouseLeftButtonDown="Signal_Click">
+                        <Ellipse.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="🔴 Заборонний (Червоний)" Click="SignalCh_SetRed"/>
+                                <MenuItem Header="🟡 Прийом на станцію (Жовтий)" Click="SignalCh_SetYellow"/>
+                                <MenuItem Header="⚪ Запрошувальний (Білий)" Click="SignalCh_SetWhite"/>
+                            </ContextMenu>
+                        </Ellipse.ContextMenu>
+                    </Ellipse>
+                    <TextBlock Canvas.Left="330" Canvas.Top="215" Foreground="White" Text="Ч"/>
+
+                    <Rectangle x:Name="TrainVisual" Canvas.Left="50" Canvas.Top="172" Width="60" Height="16" Fill="#007acc" Visibility="Hidden" RadiusX="3" RadiusY="3"/>
+                    <TextBlock x:Name="TrainLabel" Canvas.Left="65" Canvas.Top="172" Foreground="White" FontSize="11" FontWeight="Bold" Text="531" Visibility="Hidden"/>
+                </Canvas>
+
+                <Canvas x:Name="OzernaCanvas" Visibility="Collapsed">
+                    <TextBlock Canvas.Left="30" Canvas.Top="50" Foreground="LightGray" FontSize="16" FontWeight="Bold" Text="ст. ОЗЕРНА"/>
+                    <Line X1="50" Y1="180" X2="700" Y2="180" Stroke="Gray" StrokeThickness="6"/>
+                    <TextBlock Canvas.Left="300" Canvas.Top="150" Foreground="Gray" Text="Головна колія"/>
+                </Canvas>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="1" Margin="0,10,10,10" Background="#252526" BorderBrush="#333" BorderThickness="1" Padding="10">
+            <StackPanel>
+                <TextBlock Foreground="White" FontWeight="Bold" Margin="0,0,0,10" Text="АКТИВНІ ПОЇЗДИ"/>
+                <ListBox x:Name="TrainsListBox" Background="#1e1e1e" Foreground="LightGreen" Height="100" Margin="0,0,0,20"/>
+                
+                <TextBlock Foreground="White" FontWeight="Bold" Margin="0,0,0,10" Text="ЖУРНАЛ ДІЙ"/>
+                <ListBox x:Name="LogListBox" Background="#1e1e1e" Foreground="LightGray" Height="250"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" Grid.ColumnSpan="2" Background="#2d2d30" BorderBrush="#3f3f46" BorderThickness="0,2,0,0" Padding="15">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="➕ Додати поїзд" Width="150" Margin="0,0,10,0" Background="#007acc" Foreground="White" FontWeight="Bold" Click="BtnAddTrain_Click"/>
+                <Button Content="▶ Відправити поїзд" Width="150" Margin="0,0,20,0" Background="#28a745" Foreground="White" FontWeight="Bold" Click="BtnMoveTrain_Click"/>
+                <Button Content="Редагувати склад" Width="130" Margin="0,0,20,0" Click="BtnEditTrain_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
