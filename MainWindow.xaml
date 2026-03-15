@@ -12,33 +12,48 @@
 
         <Border Grid.Column="0" Background="#161b22" BorderBrush="#334155" BorderThickness="0,0,2,0" Panel.ZIndex="10">
             <StackPanel>
-                <StackPanel Margin="15,20,15,10">
-                    <TextBlock x:Name="ClockText" Text="00:00:00" Foreground="#10b981" FontSize="26" FontWeight="Bold" FontFamily="Consolas" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                <StackPanel Margin="15,20,15,5">
+                    <TextBlock x:Name="ClockText" Text="00:00:00" Foreground="#10b981" FontSize="26" FontWeight="Bold" FontFamily="Consolas" HorizontalAlignment="Center" Margin="0,0,0,10">
+                        <TextBlock.Effect><DropShadowEffect Color="#10b981" BlurRadius="10" ShadowDepth="0"/></TextBlock.Effect>
+                    </TextBlock>
                     <TextBlock Text="ПУЛЬТ МПЦ" Foreground="#94a3b8" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
                     
-                    <Button x:Name="BtnStationCentral" Content="СТАНЦІЯ ЦЕНТРАЛЬНА" Height="38" Margin="0,0,0,8" Background="#334155" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="SwitchStation_Click"/>
-                    <Button x:Name="BtnStationOzerna" Content="СТАНЦІЯ ОЗЕРНА" Height="38" Margin="0,0,0,20" Background="#1e293b" Foreground="#94a3b8" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="SwitchStation_Click"/>
-                    
-                    <Button Content="⚠ АВАРІЙНЕ ПЕРЕКРИТТЯ" Height="45" Background="#dc2626" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnEmergencyStop_Click"/>
-
-                    <TextBlock Text="ЖУРНАЛ ПОДІЙ ДНЦ:" Foreground="#94a3b8" FontSize="11" Margin="0,20,0,5"/>
-                    <ListBox x:Name="LogListBox" Height="200" Background="#0f172a" Foreground="#10b981" FontFamily="Consolas" FontSize="11" BorderBrush="#334155"/>
+                    <Button x:Name="BtnStationCentral" Content="СТАНЦІЯ ЦЕНТРАЛЬНА" Height="36" Margin="0,0,0,8" Background="#334155" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="SwitchStation_Click"/>
+                    <Button x:Name="BtnStationOzerna" Content="СТАНЦІЯ ОЗЕРНА" Height="36" Margin="0,0,0,15" Background="#1e293b" Foreground="#94a3b8" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="SwitchStation_Click"/>
                 </StackPanel>
 
-                <Separator Background="#334155" Margin="15,5"/>
+                <Border Background="#1e293b" BorderBrush="#ca8a04" BorderThickness="1" CornerRadius="8" Margin="15,0,15,10" Padding="10">
+                    <Border.Effect><DropShadowEffect Color="#ca8a04" BlurRadius="15" ShadowDepth="0" Opacity="0.2"/></Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="🎯 СЮЖЕТНИЙ СЦЕНАРІЙ" Foreground="#facc15" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="QuestTitleText" Text="Вільний режим" Foreground="White" FontWeight="Bold" FontSize="14" Margin="0,6,0,4" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock x:Name="QuestDescText" Text="Генеруйте поїзди та керуйте станціями на власний розсуд." Foreground="#cbd5e1" FontSize="11" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,8"/>
+                        <Border Background="#0f172a" CornerRadius="4" Padding="5" Margin="0,0,0,10">
+                            <TextBlock x:Name="QuestStatusText" Text="⚪ Очікування завдання..." Foreground="#94a3b8" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        </Border>
+                        <Button Content="🎲 ОТРИМАТИ ЗАВДАННЯ" Height="28" Background="#ca8a04" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnGenerateQuest_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Button Content="⚠ АВАРІЙНЕ ПЕРЕКРИТТЯ" Height="40" Margin="15,0,15,10" Background="#dc2626" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnEmergencyStop_Click"/>
+
+                <StackPanel Margin="15,5,15,10">
+                    <TextBlock Text="ЖУРНАЛ ПОДІЙ ДНЦ:" Foreground="#94a3b8" FontSize="11" Margin="0,0,0,5"/>
+                    <ListBox x:Name="LogListBox" Height="130" Background="#0f172a" Foreground="#10b981" FontFamily="Consolas" FontSize="11" BorderBrush="#334155"/>
+                </StackPanel>
+
+                <Separator Background="#334155" Margin="15,0"/>
 
                 <StackPanel Margin="15,10,15,15" Background="#1e293b">
-                    <TextBlock Text="ГЕНЕРАЦІЯ РУХОМОГО СКЛАДУ" Foreground="#38bdf8" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,15,0,5"/>
-                    <TextBlock Text="(Керування здійснюється кліком по поїзду)" Foreground="#64748b" FontSize="10" TextAlignment="Center" Margin="0,0,0,15"/>
-                    
-                    <Button Content="+ НА СТ. ЦЕНТРАЛЬНА" Height="32" Margin="15,0,15,8" Background="#475569" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnAddTrainCentral_Click"/>
-                    <Button Content="+ НА СТ. ОЗЕРНА" Height="32" Margin="15,0,15,15" Background="#475569" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnAddTrainOzerna_Click"/>
+                    <TextBlock Text="ГЕНЕРАЦІЯ РУХОМОГО СКЛАДУ" Foreground="#38bdf8" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+                    <Button Content="+ НА СТ. ЦЕНТРАЛЬНА" Height="28" Margin="15,5,15,8" Background="#475569" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnAddTrainCentral_Click"/>
+                    <Button Content="+ НА СТ. ОЗЕРНА" Height="28" Margin="15,0,15,10" Background="#475569" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnAddTrainOzerna_Click"/>
+                    <Button Content="🧪 ЮНІТ-ТЕСТИ" Height="26" Margin="15,0,15,0" Background="#0284c7" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnRunTests_Click"/>
                 </StackPanel>
             </StackPanel>
         </Border>
 
         <Grid Grid.Column="1" Margin="20">
-            
             <Canvas x:Name="CentralCanvas" Visibility="Visible">
                 <TextBlock Text="СТАНЦІЯ ЦЕНТРАЛЬНА" Foreground="#334155" FontSize="32" FontWeight="Bold" Canvas.Left="20" Canvas.Top="20"/>
                 
@@ -149,17 +164,14 @@
             <Border x:Name="InfoPopup" Visibility="Collapsed" Background="#0f172a" BorderBrush="#38bdf8" BorderThickness="2" CornerRadius="12" Width="360" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="100">
                 <Border.Effect><DropShadowEffect Color="#38bdf8" BlurRadius="25" ShadowDepth="0" Opacity="0.5"/></Border.Effect>
                 <StackPanel Margin="0">
-                    
                     <Border Background="#38bdf8" CornerRadius="10,10,0,0" Padding="15,8">
                         <Grid>
                             <TextBlock Text="БОРТОВИЙ ТЕРМІНАЛ ЕЦ" Foreground="#0f172a" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <Button Content="✖" Width="26" Height="26" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Foreground="#0f172a" BorderThickness="0" FontWeight="Bold" FontSize="16" Cursor="Hand" Click="BtnCloseInfo_Click"/>
                         </Grid>
                     </Border>
-                    
                     <StackPanel Margin="20,15,20,20">
                         <TextBlock x:Name="InfoTitle" Text="Поїзд №531" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,0,0,15"/>
-                        
                         <Grid Margin="0,4"><Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                             <TextBlock Text="Локомотив:" Foreground="#94a3b8" FontSize="14" Grid.Column="0"/>
                             <TextBlock x:Name="InfoLoco" Text="ТУ2" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
@@ -176,7 +188,6 @@
                             <TextBlock Text="Напрямок:" Foreground="#94a3b8" FontSize="14" Grid.Column="0"/>
                             <TextBlock x:Name="InfoDirection" Text="Вправо" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
                         </Grid>
-
                         <Border Background="#1e293b" CornerRadius="6" Padding="10" Margin="0,15,0,0">
                             <Grid>
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="auto"/></Grid.ColumnDefinitions>
@@ -187,7 +198,6 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
         </Grid>
     </Grid>
 </Window>
