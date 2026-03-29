@@ -43,7 +43,7 @@ namespace DncApp
             public string Description { get; set; } = "";
             public Func<List<TrainData>, bool> CheckCompletion { get; set; } = _ => false;
         }
-        private List<GameQuest> _allQuests;
+        private List<GameQuest> _allQuests = new List<GameQuest>();
         private GameQuest? _currentQuest = null;
         private bool _isQuestCompleted = false;
 
@@ -350,8 +350,15 @@ namespace DncApp
             MessageBox.Show($"КАТАСТРОФА!\n{reason}.\nПоїзд №{t.Number} зійшов з рейок/пошкоджено.", "БЕЗПЕКА", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        // --- ВИКЛИК ЮНІТ-ТЕСТІВ ---
         protected internal void BtnRunTests_Click(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Ця функція викликає клас MpcTests.cs.", "Тести", MessageBoxButton.OK, MessageBoxImage.Information);
+            try {
+                string testReport = MpcTests.RunAllTests();
+                MessageBox.Show(testReport, "Звіт про модульне тестування (Unit Tests)", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogAction("Виконано автоматизоване тестування безпеки МПЦ.");
+            } catch (Exception ex) {
+                MessageBox.Show($"Помилка запуску тестів. Переконайтеся, що файл MpcTests.cs існує в проєкті.\nДеталі: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
